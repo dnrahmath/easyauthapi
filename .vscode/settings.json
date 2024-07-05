@@ -1,0 +1,92 @@
+{
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": true,
+    "html.autoClosingTags": false,
+    "editor.accessibilitySupport": "off",
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingQuotes": "never",
+    "editor.autoSurround": "never",
+    "editor.find.autoFindInSelection": "always",
+    "java.semanticHighlighting.enabled": false,
+    //"window.newWindowDimensions": "maximized",
+    "window.newWindowDimensions": "default",
+    //"window.restoreFullscreen": true
+    "window.restoreFullscreen": false,
+    "editor.fontSize": 12,
+    "mssql.connections": [
+        {
+            "server": "{{put-server-name-here}}",
+            "database": "{{put-database-name-here}}",
+            "user": "{{put-username-here}}",
+            "password": ""
+        }
+    ],
+    "githubIssues.queries": [
+        {
+            "label": "My Issues",
+            "query": "default"
+        },
+        {
+            "label": "Created Issues",
+            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        }
+    ],
+    "git.confirmSync": false,
+    "liveServer.settings.CustomBrowser": "chrome",
+    "workbench.editorAssociations": {
+        "*.js": "default"
+    },
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "workbench.colorTheme": "Default Dark+",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [140],
+        "editor.selectionHighlight": false,
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.suggestSelection": "first",
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": "off"
+    },
+    "redhat.telemetry.enabled": true,
+    "vs-kubernetes": {
+        "vscode-kubernetes.kubectl-path.linux": "/home/dnrahmath/.local/state/vs-kubernetes/tools/kubectl/kubectl",
+        "vscode-kubernetes.minikube-path.linux": "/home/dnrahmath/.local/state/vs-kubernetes/tools/minikube/linux-amd64/minikube",
+        "vscode-kubernetes.helm-path.linux": "/home/dnrahmath/.local/state/vs-kubernetes/tools/helm/linux-amd64/helm",
+        "vs-kubernetes.minikube-show-information-expiration": "2023-07-28T04:49:48.857Z"
+    },
+    "dart.debugExternalPackageLibraries": true,
+    "dart.debugSdkLibraries": true,
+    "dart.openDevTools": "flutter",
+    "editor.rulers": [140],
+    "workbench.colorCustomizations": {
+        "editorRuler.foreground": "#85858546"
+    },
+    "git.autofetch": true,
+    "editor.minimap.enabled": false,
+    "extensions.ignoreRecommendations": true,
+    "diffEditor.ignoreTrimWhitespace": true,
+    "editor.stickyScroll.enabled": false,
+    "dart.flutterSdkPath": "D:\\Download\\Flutter_SDK_VSCode\\flutter",
+    "[go]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "never"
+        },
+    },
+    "go.delveConfig": {
+        
+    },
+    "[markdown]": {
+        "diffEditor.ignoreTrimWhitespace": true
+    },
+    "diffEditor.hideUnchangedRegions.enabled": false
+}

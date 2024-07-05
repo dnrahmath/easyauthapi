@@ -1,0 +1,97 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "[0.0] go run main.go --exec=CreateDocs --config=./app.env",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/main.go",
+            "args": ["--exec=CreateDocs", "--config=./app.env"],
+            "envFile": "${workspaceFolder}/app.env",
+            "showLog": true
+        },
+        {
+            "name": "[0.1] Docker - Prepare Third Party Applications",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "docker-compose",
+            "args": [
+                "-f",
+                "./docker-compose.yml",
+                "up",
+                "-d"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "[1.0] go run main.go --config=./app.env",
+            // Note: Develop Mode is not Hot Reload and Make sure MongoDB, Redis, and Docker are running
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/main.go",
+            "args": ["--config=./app.env"],
+            "envFile": "${workspaceFolder}/app.env",
+            "showLog": true,
+        },
+        {
+            "name": "[2.0] $env:GOOS=; $env:GOARCH=; go build -o ./myappbuildlinux main.go",
+            //COPY PASTE SENDIRI - MANUAL
+            //$env:GOOS="linux"; $env:GOARCH="amd64"; go build -o ./myappbuildlinux main.go
+            "type": "go",
+            "request": "launch",
+            "mode": "exec",
+            "host": "127.0.0.1",
+            "program": "${workspaceFolder}/main.go",
+            "env": {},
+            "args": [],
+            "showLog": true,
+            "buildFlags": [
+                "-o",
+                "./myappbuildlinux"
+            ],
+            "trace": "verbose"
+        },
+        {
+            "name": "[2.1] Docker - after go build - DOCKERFILE=DockerfileGoBuild docker-compose -f ./docker-compose-buildapp.yml up --build -d",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "docker-compose",
+            "args": [
+                "-f",
+                "./docker-compose-buildapp.yml",
+                "up",
+                "--build",
+                "-d"
+            ],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "DOCKERFILE": "DockerfileGoBuild"
+            },
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "[3.] Docker - Build and Deploy App",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "docker-compose",
+            "args": [
+                "-f",
+                "./docker-compose-buildapp.yml",
+                "up",
+                "--build",
+                "-d"
+            ],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "DOCKERFILE": "Dockerfile"
+            },
+            "console": "integratedTerminal"
+        }
+    ]
+}

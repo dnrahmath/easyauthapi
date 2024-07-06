@@ -41,8 +41,8 @@ import (
 // @name Access-Token
 func serverStart(configFile *string) {
 	// Load configuration from file
-	// initi.LoadConfigViper("./", configFile)
-	initi.LoadConfigGodotenv()
+	initi.LoadConfigViper("./", configFile)
+	// initi.LoadConfigGodotenv()
 
 	// Connect to PostgreSQL database
 	initi.ConnectDB()

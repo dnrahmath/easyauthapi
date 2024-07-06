@@ -50,6 +50,7 @@ func initRoute(r *gin.Engine) {
 func InitGin() {
 	gin.DisableConsoleColor()
 	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.DebugMode) // Ubah ke DebugMode
 	// gin.SetMode(configs.UseConfig.Mode)
 	// do some other initialization staff
 }

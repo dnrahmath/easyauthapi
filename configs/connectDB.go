@@ -1,8 +1,8 @@
 package configs
 
 import (
+	"errors"
 	"fmt"
-	"log"
 	"time"
 
 	"gorm.io/driver/postgres"
@@ -17,7 +17,7 @@ const (
 
 var DB *gorm.DB
 
-func ConnectDB() {
+func ConnectDB() error {
 	var err error
 
 	// Construct DSN using Railway environment variables
@@ -31,8 +31,9 @@ func ConnectDB() {
 
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Failed to connect to the Database:", err)
+		return errors.New("Failed to connect to the Database: " + err.Error())
 	}
 
 	fmt.Println("🚀 Connected Successfully to the Database")
+	return nil
 }

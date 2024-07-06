@@ -12,7 +12,11 @@ import (
 func init() {
 	configFile := flag.String("config", "app.env", "Name of the config file (without extension)")
 	initi.LoadConfigViper("../", configFile)
-	initi.ConnectDB()
+	fmt.Println("Connecting to database...")
+	if err := initi.ConnectDB(); err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
+	fmt.Println("Database connected")
 }
 
 func DBOutputToSQL() string {

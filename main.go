@@ -41,41 +41,54 @@ import (
 // @name Access-Token
 func serverStart(configFile *string) {
 	// Load configuration from file
+	fmt.Println("Loading configuration from file...")
 	initi.LoadConfigViper("./", configFile)
 	// initi.LoadConfigGodotenv()
+	fmt.Println("Configuration loaded")
 
 	// Connect to PostgreSQL database
-	initi.ConnectDB()
+	fmt.Println("Connecting to database...")
+	if err := initi.ConnectDB(); err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
+	fmt.Println("Database connected")
 
 	// Migrate database tables if they don't exist
+	fmt.Println("Starting database migrations...")
 	data := migration.AdmissionMigration{}
 	data.Migrate()
 	data2 := migration.TokenMigration{}
 	data2.Migrate()
 	data3 := migration.UserMigration{}
 	data3.Migrate()
-
 	fmt.Println("Database migrations completed")
 
 	// Initialize Gin router and server
+	fmt.Println("Initializing Gin router...")
 	routes.InitGin()
 	router := routes.New()
+	fmt.Println("Gin router initialized")
 
 	// Create HTTP server
+	fmt.Println("Creating HTTP server...")
 	server := &http.Server{
-		Addr:         ":" + os.Getenv("PORT"),
+		Addr: ":" + os.Getenv("PORT"),
+		// Addr:         ":" + "8080",
 		WriteTimeout: time.Second * 30,
 		ReadTimeout:  time.Second * 30,
 		IdleTimeout:  time.Second * 30,
 		Handler:      router,
 	}
+	fmt.Println("HTTP server created")
 
 	// Start HTTP server in a goroutine
+	fmt.Println("Starting HTTP server...")
 	go func() {
-		if err := server.ListenAndServe(); err != nil {
-			log.Printf("Server listen error: %s\n", err)
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("Server listen error: %v", err)
 		}
 	}()
+	fmt.Println("HTTP server started")
 
 	// Handle graceful shutdown on interrupt signal
 	quit := make(chan os.Signal, 1)

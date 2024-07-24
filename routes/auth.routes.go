@@ -1,12 +1,10 @@
 package routes
 
 import (
-	"crypto/md5"
 	"easyauthapi/controllers"
 	"easyauthapi/middlewares"
 	"easyauthapi/middlewares/validators"
-	"encoding/hex"
-	"fmt"
+	"easyauthapi/utils"
 	"net/http"
 	"time"
 
@@ -35,37 +33,8 @@ func AuthRoute(router *gin.RouterGroup, handlers ...gin.HandlerFunc) {
 		auth.GET(
 			"/get-info",
 			func(c *gin.Context) {
-				var ip string
-
-				// Mendapatkan IP dari header "X-Forwarded-For"
-				XForwardedFor := c.GetHeader("X-Forwarded-For")
-				if XForwardedFor != "" {
-					ip = XForwardedFor
-					fmt.Println("X-Forwarded-For : " + ip)
-				}
-
-				// Jika "X-Forwarded-For" tidak tersedia, gunakan "X-Real-IP"
-				XRealIP := c.GetHeader("X-Real-IP")
-				if ip == "" && XRealIP != "" {
-					ip = XRealIP
-					fmt.Println("X-Real-IP : " + ip)
-				}
-
-				// Jika header tidak tersedia, gunakan metode bawaan ClientIP [Carrier-Grade NAT (CGNAT)]
-				ClientIP := c.ClientIP()
-				if ip == "" && ClientIP != "" {
-					ip = ClientIP
-					fmt.Println("Client IP : " + ip)
-				}
-
-				userAgent := c.GetHeader("User-Agent")
-				referer := c.GetHeader("Referer")
-				acceptLanguage := c.GetHeader("Accept-Language")
-
-				// Generate fingerprint
-				fingerprintSource := ip + userAgent + referer + acceptLanguage
-				hash := md5.Sum([]byte(fingerprintSource))
-				fingerprint := hex.EncodeToString(hash[:])
+				fingerprintData := utils.GetDataFingerprint(c)
+				fingerprint := utils.GenerateFingerprint(fingerprintData)
 
 				cookies := c.Request.Cookies()
 				cookieMap := make(map[string]string)
@@ -76,16 +45,13 @@ func AuthRoute(router *gin.RouterGroup, handlers ...gin.HandlerFunc) {
 				headers := c.Request.Header
 
 				c.JSON(http.StatusOK, gin.H{
-					"XForwardedFor":   XForwardedFor,
-					"XRealIP":         XRealIP,
-					"ClientIP":        ClientIP,
-					"SelectedIP":      ip, // IP yang dipilih berdasarkan prioritas
-					"user_agent":      userAgent,
-					"referer":         referer,
-					"accept_language": acceptLanguage,
-					"fingerprint":     fingerprint,
-					"cookies":         cookieMap,
-					"headers":         headers,
+					"UserAgent":      fingerprintData["UserAgent"],
+					"AcceptLanguage": fingerprintData["AcceptLanguage"],
+					"Referer":        fingerprintData["Referer"],
+					"IP":             fingerprintData["IP"], // IP yang dipilih berdasarkan prioritas
+					"fingerprint":    fingerprint,
+					"cookies":        cookieMap,
+					"headers":        headers,
 				})
 			},
 		)

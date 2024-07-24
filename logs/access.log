@@ -5,3 +5,5 @@
 [GIN] 2024/07/24 - 12:59:19 | 200 |            0s |             ::1 | GET      "/api/auth/get-info"
 [GIN] 2024/07/24 - 13:25:58 | 200 |      6.1761ms |             ::1 | GET      "/api/auth/get-info"
 [GIN] 2024/07/24 - 13:27:17 | 200 |      1.9901ms |             ::1 | GET      "/api/auth/get-info"
+[GIN] 2024/07/24 - 13:44:50 | 200 |      8.5501ms |             ::1 | GET      "/api/auth/get-info"
+[GIN] 2024/07/24 - 13:53:57 | 200 |      7.0425ms |             ::1 | GET      "/api/auth/get-info"

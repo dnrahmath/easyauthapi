@@ -1,6 +1,12 @@
 package utils
 
-import "time"
+import (
+	"crypto/md5"
+	"encoding/hex"
+	"time"
+
+	"github.com/gin-gonic/gin"
+)
 
 // =============================================================================================
 
@@ -36,6 +42,52 @@ func ConvertStringToTime(timeString string) (time.Time, error) {
 		return time.Time{}, err
 	}
 	return parsedTime, nil
+}
+
+// =============================================================================================
+
+func GetDataFingerprint(c *gin.Context) map[string]string {
+	var ip string
+
+	// Mendapatkan IP dari header "X-Forwarded-For"
+	XForwardedFor := c.GetHeader("X-Forwarded-For")
+	if XForwardedFor != "" {
+		ip = XForwardedFor
+	}
+
+	// Jika "X-Forwarded-For" tidak tersedia, gunakan "X-Real-IP"
+	XRealIP := c.GetHeader("X-Real-IP")
+	if ip == "" && XRealIP != "" {
+		ip = XRealIP
+	}
+
+	// Jika header tidak tersedia, gunakan metode bawaan ClientIP [Carrier-Grade NAT (CGNAT)]
+	ClientIP := c.ClientIP()
+	if ip == "" && ClientIP != "" {
+		ip = ClientIP
+	}
+
+	userAgent := c.GetHeader("User-Agent")
+	acceptLanguage := c.GetHeader("Accept-Language")
+	referer := c.GetHeader("Referer")
+
+	fingerprintData := map[string]string{
+		"UserAgent":      userAgent,
+		"AcceptLanguage": acceptLanguage,
+		"Referer":        referer,
+		"IP":             ip,
+	}
+
+	return fingerprintData
+}
+
+func GenerateFingerprint(data map[string]string) string {
+	fingerprintSource := ""
+	for key, value := range data {
+		fingerprintSource += key + ":" + value + ";"
+	}
+	hash := md5.Sum([]byte(fingerprintSource))
+	return hex.EncodeToString(hash[:])
 }
 
 // =============================================================================================

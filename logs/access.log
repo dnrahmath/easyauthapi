@@ -3,3 +3,5 @@
 [GIN] 2024/07/24 - 12:58:24 | 404 |            0s |             ::1 | GET      "/favicon.ico"
 [GIN] 2024/07/24 - 12:59:05 | 404 |            0s |             ::1 | GET      "/auth/logout"
 [GIN] 2024/07/24 - 12:59:19 | 200 |            0s |             ::1 | GET      "/api/auth/get-info"
+[GIN] 2024/07/24 - 13:25:58 | 200 |      6.1761ms |             ::1 | GET      "/api/auth/get-info"
+[GIN] 2024/07/24 - 13:27:17 | 200 |      1.9901ms |             ::1 | GET      "/api/auth/get-info"

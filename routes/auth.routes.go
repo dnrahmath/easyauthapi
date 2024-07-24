@@ -16,6 +16,34 @@ func AuthRoute(router *gin.RouterGroup, handlers ...gin.HandlerFunc) {
 		ctrl := call.NewController()
 		//==================================
 
+		auth.GET(
+			"/get-info",
+			func(c *gin.Context) {
+				ip := c.ClientIP()
+				userAgent := c.GetHeader("User-Agent")
+				referer := c.GetHeader("Referer")
+				acceptLanguage := c.GetHeader("Accept-Language")
+
+				// Mendapatkan semua cookies yang dikirim oleh klien
+				cookies := c.Request.Cookies()
+
+				// Membuat map untuk menyimpan nama dan nilai cookie
+				cookieMap := make(map[string]string)
+				for _, cookie := range cookies {
+					cookieMap[cookie.Name] = cookie.Value
+				}
+
+				// Mengirimkan informasi dalam format JSON
+				c.JSON(200, gin.H{
+					"ip":              ip,
+					"user_agent":      userAgent,
+					"referer":         referer,
+					"accept_language": acceptLanguage,
+					"cookies":         cookieMap,
+				})
+			},
+		)
+
 		auth.POST(
 			"/register",
 			validators.RegisterValidator(),

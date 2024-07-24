@@ -1,0 +1,5 @@
+[GIN] 2024/07/06 - 16:17:49 | 400 |    522.5544ms |             ::1 | POST     "/api/auth/login"
+[GIN] 2024/07/24 - 12:58:24 | 404 |      1.9904ms |             ::1 | GET      "/auth/get-info"
+[GIN] 2024/07/24 - 12:58:24 | 404 |            0s |             ::1 | GET      "/favicon.ico"
+[GIN] 2024/07/24 - 12:59:05 | 404 |            0s |             ::1 | GET      "/auth/logout"
+[GIN] 2024/07/24 - 12:59:19 | 200 |            0s |             ::1 | GET      "/api/auth/get-info"

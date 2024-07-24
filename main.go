@@ -70,10 +70,12 @@ func serverStart(configFile *string) {
 	fmt.Println("Gin router initialized")
 
 	// Create HTTP server
-	fmt.Println("Creating HTTP server...")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // default port if not set
+	}
 	server := &http.Server{
-		Addr: ":" + os.Getenv("PORT"),
-		// Addr:         ":" + "8080",
+		Addr:         ":" + port,
 		WriteTimeout: time.Second * 30,
 		ReadTimeout:  time.Second * 30,
 		IdleTimeout:  time.Second * 30,
@@ -89,6 +91,7 @@ func serverStart(configFile *string) {
 		}
 	}()
 	fmt.Println("HTTP server started")
+	fmt.Printf("HTTP server started on http://localhost:%s\n", port)
 
 	// Handle graceful shutdown on interrupt signal
 	quit := make(chan os.Signal, 1)
